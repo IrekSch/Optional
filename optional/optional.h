@@ -16,23 +16,19 @@ public:
     Optional() = default;
 
     Optional(const T& value) {
-        Forward(value);
+        *this = value;
     }
 
     Optional(T&& value) {
-        Forward(std::move(value));
+        *this = std::move(value);
     }
 
     Optional(const Optional& other) {
-        if (other.HasValue()) {
-            Forward(other.Value());
-        }
+        *this = other;
     }
 
     Optional(Optional&& other) noexcept {
-        if (other.HasValue()) {
-            Forward(std::move(other.Value()));
-        }
+        *this = std::move(other);
     }
 
     Optional& operator=(const T& value) {
