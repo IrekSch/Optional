@@ -110,6 +110,16 @@ public:
         is_initialized_ = false;
     }
 
+    template <typename ... Ts>
+    void Emplace(Ts&& ... ts) {
+        if (ptr_ != nullptr) {
+            ptr_->~T();
+            ptr_ = nullptr;
+        }
+        ptr_ = new (data_) T(std::forward<Ts>(ts) ...);
+        is_initialized_ = true;
+    }
+
 private:
     alignas(T) char data_[sizeof(T)];
     bool is_initialized_ = false;
